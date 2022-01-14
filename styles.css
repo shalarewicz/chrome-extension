@@ -15,6 +15,8 @@ button.current {
 body {
   width: 300px;
   font-family: Avantgarde, 'TeX Gyre Adventor', 'URW Gothic L', sans-serif;
+  background-color: #202124;
+  color: #bdc1c6;
 }
 
 .tab {
@@ -30,6 +32,7 @@ body {
 
 .tab:hover {
   background-color: lightblue;
+  background-color: #2f2f30;
   /* Change mouse pointer */
   cursor: pointer;
 }
@@ -42,7 +45,7 @@ body {
   text-align: center;
   font-size: 14pt;
   font-weight: bold;
-  background-color: white;
+  background-color: inherit;
 
   padding-top: 5px;
   position:fixed;
@@ -63,7 +66,6 @@ body {
 .icon {
   flex: 0 0 20px;
   height: 20px;
-  /* align-self: center; */
   margin-left: 8px;
   
   
@@ -71,6 +73,7 @@ body {
   background-repeat: no-repeat;
   background-position: center;
   opacity: 0.5;
+  /* Style icons for dark theme */
 }
 
 .icon:hover {
@@ -78,11 +81,17 @@ body {
 }
 
 .close {
+  /* color:white;
+  height: 12px;
+  filter:  */
   background: url('./images/x-circle.svg');
   background-repeat: no-repeat;
   background-size: 12px;
   background-position: center;
-  flex: 0 0 12px;
+  /* flex: 0 0 12px; */
+  /* -webkit-mask-image: url('./images/x-circle.svg');
+  mask */
+  
 }
 
 .close:hover {
