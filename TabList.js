@@ -4,12 +4,11 @@ class TabList {
    * @param {String} name unique name for the tab list
    * @param { Array<chrome.tab.Tab> } tabs tabs to be added to the list
    */
-  constructor(tabs, name = 'default') {
+  constructor(tabs, name = 'hoard') {
     this.name = name;
 
-    // TODO process the tabs
     this.tabList = tabs.map((tab) => {
-      // create a new Tab fromthe provided tab
+      // create a new Tab from the provided tab info
       return new Tab(tab);
     })
 
@@ -25,7 +24,8 @@ class TabList {
 
   _render() {
     const parent = document.createElement('div');
-    parent.id = this.name; // ensure id's are one word
+    parent.id = 'current-list';
+    // parent.id = this.name; // ensure id's are one word
 
     const title = document.createElement('div');
     title.classList.add('list-title');

@@ -6,20 +6,21 @@ class Tab {
   constructor(tab) {
     // Get Ids
     this.id = tab.id;
-    this.windowId = tab.windowId;
+    this.windowId = tab.windowId || -1;
 
     // Get tab metadata
     this.title = tab.title;
     this.icon = tab.favIconUrl;
-    this.active = tab.active;
-    this.chromeGroup = tab.groupId;
+    this.active = tab.active || false;
+    this.chromeGroup = tab.groupId || -1;
+    this.url = tab.url;
 
     // Get audio data
-    this.audible = tab.audible;
-    this.muted = tab.mutedInfo.muted;
+    this.audible = tab.audible || false
+    this.muted = tab.mutedInfo ? tab.mutedInfo.muted : false
 
     // track custom groups
-    this.customGroups = [];
+    this.customGroups = tab.customGroups || [];
 
     this.node = this._render();
   }
@@ -33,7 +34,7 @@ class Tab {
     // add favicon
     const favicon = document.createElement('img');
     favicon.classList.add('favicon');
-    favicon.src = this.icon;
+    favicon.src = this.icon || '';
 
     parent.appendChild(favicon);
 
@@ -71,6 +72,7 @@ class Tab {
 
     const closeTab = document.createElement('svg');
     closeTab.classList.add('icon', 'close');
+    // closeTab.src = './images/x-circle.svg';
 
     closeTab.addEventListener('click', (event) => {
       this.close();
@@ -157,8 +159,36 @@ class Tab {
     // Remmove from the DOM if it exists 
     document.querySelector(`#tab-${this.id}`).remove();
 
+    // get the current list name
+    let currentList = document.querySelector('.list-title').innerText.toLowerCase();
 
-    // Close the tab in the browser
-    chrome.tabs.remove(this.id);
+
+    if (currentList === 'all') {
+      // Close the tab in the browser
+      chrome.tabs.remove(this.id).then(
+        console.log('Closed tab!')
+      ).catch(
+        console.log('Tab no longer open')
+      );
+    } else {
+      // Otherwise Remove the tab from storage
+      chrome.storage.sync.get(currentList, (result) => {
+        const cur = result[currentList];
+
+        // iterate through the list to find the index of the object to be removed
+        let i = 0;
+        while (i < cur.length && cur[i].title !== this.title) {
+          i++;
+        }
+
+        cur.splice(i, 1);
+        // update storage with the new list
+
+        const newObj = {};
+        newObj[currentList] = cur;
+
+        chrome.storage.sync.set(newObj);
+      })
+    }
   }
 }

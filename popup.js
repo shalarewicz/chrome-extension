@@ -1,117 +1,109 @@
-let saveTabButton = document.querySelector("#saveTab");
-showList('defaultList');
-
-
-// Add an event listener to save 'youtube.com' to storage
-saveTabButton.addEventListener('click', async () => {
-  // console.log('click');
-  saveTabToStorage('google.com');
-
-  // Add the item to the UI
-  addItemToUI('defaultList', 'google.com');
-
-});
-
-
-// The body of this function will be executed as a content script inside the
-// current page
-function saveTabToStorage(tab) {
-
-  chrome.storage.sync.get(['defaultList'], function (result) {
-    console.log(`saving ${tab}`)
-    // console.log(`Got result is ` + result.defaultList)
-
-    defaultList = result.defaultList;
-    // console.log(`before: ${defaultList}`)
-    defaultList.push(tab);
-    // console.log(`after: ${defaultList}`)
-
-    chrome.storage.sync.set({ defaultList: defaultList }, function () {
-      console.log(`updated list ${defaultList}`)
-    });
-  });
-
-
-
-}
-
 /**
- * Adds the provided item to the lst with the provided id. 
- * @param {String} lstId id of html list element
- * @param {String} item item we're ading
+ * Gets data about thecurrent tab
+ * @returns Promise
  */
-function addItemToUI(lstId, item) {
-  // get the specified from the DOM
-  const lister = document.querySelector(`#${lstId}`);
-  const newLister = document.createElement("li");
-  newLister.innerText = item;
-
-  lister.appendChild(newLister);
-
-
-}
-
-function showList(lst) {
-  // Get the defaultList from storage
-  chrome.storage.sync.get([lst], function (result) {
-    const myList = result[lst];
-
-    // Render the list as a <ul>
-    const parent = document.createElement('ul');
-    parent.id = lst;
-
-    myList.forEach(element => {
-      const listItem = document.createElement('li');
-      listItem.innerText = element;
-      parent.appendChild(listItem);
-    });
-
-    document.querySelector('body').prepend(parent);
-
-  });
-
-}
-
-
 async function getCurrentTab() {
   let queryOptions = { active: true, currentWindow: true };
   let [tab] = await chrome.tabs.query(queryOptions);
   return tab;
 }
 
-console.log(getCurrentTab());
-
+/**
+ * Gets all open tabs from chrome
+ * 
+ * @returns Promise
+ */
 async function getAllTabs() {
   // get all tabs by passing in no query params
   return await chrome.tabs.query({});
 }
 
+function showAllTabs() {
+  // Display the current tabs in our all tabs list
+  getAllTabs().then((result) => {
+    // result is an array of 'tab' objects
+    const tabList = new TabList(result, 'All');
 
-getAllTabs().then((result) => {
-  // result is an array of 'tab' objects
+    // render the tablist
+    document.querySelector('body').prepend(tabList.getNode());
 
-  const tabList = new TabList(result, 'All');
+  });
+}
 
-  // render the tablist
-  document.querySelector('body').prepend(tabList.getNode());
 
-  // tabList = result.map((tab) => {
-  //   // get the title and put it in our tab list
-  //   // TODO sort this alphabetically
-  //   return tab.title;
-  // });
+/**
+ * Saves the current tab to the provided list in storage
+ * @param {????} tab 
+ * @param {String} listName 
+ */
+function saveTabToStorage(listName = 'hoard') {
+  // The body of this function will be executed as a content script inside the
+  // current page
 
-  // tabList.sort();
+  // Get data about the current tab
+  getCurrentTab().then(tab => {
+    // get the specified list from storage
+    chrome.storage.sync.get([listName], function (result) {
+      // console.log(`saving ${tab.url} to ${listName}`)
+      const newList = result[listName];
 
-  // tabList.forEach(tabTitle =>
-  //   addItemToUI('defaultList', tabTitle)
-  // );
+      tabToSave = {
+        title: tab.title,
+        url: tab.url,
+        favIconUrl: tab.favIconUrl,
+        id: newList.length,
+      }
+      newList.push(tabToSave);
 
-  // console.log(tabList);
-  // // allTabs = tabList;
-  // return tabList;
+      const newObj = {};
+      newObj[listName] = newList
+
+      chrome.storage.sync.set(newObj);
+    });
+
+  })
+}
+
+
+function showHoard() {
+  // get the hoard list from storage
+  chrome.storage.sync.get('hoard', (result) => {
+
+    // Create a new tab list
+    const hoardList = new TabList(result['hoard'], 'Hoard');
+    hoardList.getNode().className = 'hoard';
+
+    // Remove the cuurentlist from the DOM
+    document.querySelector('#current-list').remove();
+
+    // render the hoard list
+    document.querySelector('body').prepend(hoardList.getNode());
+  });
+}
+
+
+// Populate the popup with all tabs
+showAllTabs();
+
+
+// add an event listener to the 'hoard' buttons
+const hoardButton = document.querySelector("#hoard");
+
+
+// Add an event listener to save 'youtube.com' to storage
+hoardButton.addEventListener('click', (event) => {
+  saveTabToStorage('hoard');
+
+  // If we're currently viewing the hoard list. Re-render the hoard list
+  if (document.querySelector('.hoard')) {
+    console.log('re-render hoard');
+    showHoard();
+  }
 });
 
 
-// console.log(allTabs);
+const showHoardButton = document.querySelector('#getHoard');
 
+showHoardButton.addEventListener('click', (event) => {
+  showHoard();
+});
