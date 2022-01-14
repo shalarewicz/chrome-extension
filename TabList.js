@@ -6,7 +6,6 @@ class TabList {
    */
   constructor(tabs, name = 'default') {
     this.name = name;
-    this.node = this._render();
 
     // TODO process the tabs
     this.tabList = tabs.map((tab) => {
@@ -15,12 +14,13 @@ class TabList {
     })
 
     this.sortByAlphabetical();
+    this.sortByAudible();
+
+    this.node = this._render();
 
     this.tabList.forEach(tab => {
       this.listContainer.appendChild(tab.getNode());
     })
-
-
   }
 
   _render() {
@@ -78,8 +78,27 @@ class TabList {
     })
   }
 
+  /**
+   * stable sort for audible tabs followed by muted followed by inaudible
+   */
   sortByAudible() {
+    const audible = [];
+    const muted = [];
+    const rest = [];
 
+    this.tabList.forEach(tab => {
+      if (tab.audible) {
+        if (tab.muted) {
+          muted.push(tab);
+        } else {
+          audible.push(tab);
+        }
+      } else {
+        rest.push(tab);
+      }
+    });
+
+    this.tabList = [...audible, ...muted, ...rest];
   }
 
   sortByRecent() {
