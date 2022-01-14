@@ -11,3 +11,56 @@ button.current {
   box-shadow: 0 0 0 2px white,
               0 0 0 4px black;
 } */
+
+body {
+  width: 300px;
+  font-family: Avantgarde, 'TeX Gyre Adventor', 'URW Gothic L', sans-serif;
+}
+
+.tab {
+  padding: 5pt 30pt;
+  font-size: 10pt;
+  display: flex;
+}
+
+.tab:hover {
+  background-color: lightblue;
+  /* Change mouse pointer */
+  cursor: pointer;
+}
+
+.tab-list {
+  margin-top: 25px;
+}
+
+.list-title {
+  text-align: center;
+  font-size: 14pt;
+  font-weight: bold;
+  background-color: white;
+
+  padding-top: 5px;
+  position:fixed;
+  top:0;
+  left: 0;
+  width: 100%;
+}
+
+.sound-icon {
+  flex-basis: 16px;
+  flex-grow: 0;
+  flex-shrink: 0;
+
+  display: block;
+  width: 16px;
+  height: 16px;
+  background-size: 16px 16px;
+}
+
+.muted {
+  background: url('./images/volume-mute.svg');
+}
+
+.audible {
+  background: url('./images/volume-up.svg');
+}

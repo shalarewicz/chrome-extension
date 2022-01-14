@@ -86,26 +86,30 @@ async function getAllTabs() {
   return await chrome.tabs.query({});
 }
 
-// console.log(getAllTabs());
 
 getAllTabs().then((result) => {
   // result is an array of 'tab' objects
 
-  tabList = result.map((tab) => {
-    // get the title and put it in our tab list
-    // TODO sort this alphabetically
-    return tab.title;
-  });
+  const tabList = new TabList(result, 'All');
 
-  tabList.sort();
+  // render the tablist
+  document.querySelector('body').prepend(tabList.getNode());
 
-  tabList.forEach(tabTitle =>
-    addItemToUI('defaultList', tabTitle)
-  );
+  // tabList = result.map((tab) => {
+  //   // get the title and put it in our tab list
+  //   // TODO sort this alphabetically
+  //   return tab.title;
+  // });
 
-  console.log(tabList);
-  // allTabs = tabList;
-  return tabList;
+  // tabList.sort();
+
+  // tabList.forEach(tabTitle =>
+  //   addItemToUI('defaultList', tabTitle)
+  // );
+
+  // console.log(tabList);
+  // // allTabs = tabList;
+  // return tabList;
 });
 
 
