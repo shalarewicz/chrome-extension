@@ -2,31 +2,6 @@ let saveTabButton = document.querySelector("#saveTab");
 showList('defaultList');
 
 
-// let allTabs = await getAllTabs().then((result) => {
-//   console.log(result);
-//   let tabList = [];
-
-//   // result is an array of 'tab' objects
-
-//   // for (let prop in result) {
-//   //   if (prop === "title") {
-//   //     tabList.push(result[prop])
-//   //   }
-//   // }
-//   result.forEach((tab) => {
-//     // get the title and put it in our tab list
-//     tabList.push(tab.title);
-//   });
-
-//   console.log(tabList);
-//   allTabs = tabList;
-// });
-
-// console.log(allTabs);
-
-
-
-
 // Add an event listener to save 'youtube.com' to storage
 saveTabButton.addEventListener('click', async () => {
   // console.log('click');
@@ -104,28 +79,35 @@ async function getCurrentTab() {
   return tab;
 }
 
-// console.log(getCurrentTab());
+console.log(getCurrentTab());
 
 async function getAllTabs() {
   // get all tabs by passing in no query params
-  return chrome.tabs.query({}, (result) => {
-    let tabList = [];
-
-    // result is an array of 'tab' objects
-
-    result.forEach((tab) => {
-      // get the title and put it in our tab list
-      // TODO sort this alphabetically
-      addItemToUI('defaultList', tab.title);
-
-    });
-
-    console.log(tabList);
-    allTabs = tabList;
-    return tabList;
-  });
+  return await chrome.tabs.query({});
 }
 
-console.log(getAllTabs());
+// console.log(getAllTabs());
 
-let allTabs = getAllTabs();
+getAllTabs().then((result) => {
+  // result is an array of 'tab' objects
+
+  tabList = result.map((tab) => {
+    // get the title and put it in our tab list
+    // TODO sort this alphabetically
+    return tab.title;
+  });
+
+  tabList.sort();
+
+  tabList.forEach(tabTitle =>
+    addItemToUI('defaultList', tabTitle)
+  );
+
+  console.log(tabList);
+  // allTabs = tabList;
+  return tabList;
+});
+
+
+// console.log(allTabs);
+
