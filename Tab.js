@@ -28,27 +28,34 @@ class Tab {
     // renders the tab as a list item
     const parent = document.createElement('div');
     parent.classList.add('tab');
-    parent.id = this.id;
+    parent.id = `tab-${this.id}`;
+
+    // add favicon
+    const favicon = document.createElement('img');
+    favicon.classList.add('favicon');
+    favicon.src = this.icon;
+
+    parent.appendChild(favicon);
 
     // add text container
     const text = document.createElement('div');
+    text.classList.add('tab-title')
     text.innerText = this.title;
     parent.appendChild(text)
 
     // Add volume image container
     const image = document.createElement('div');
-    image.classList.add('sound-icon');
+    image.classList.add('icon');
     // Give image a unique id 'sound-icon-123'
     image.id = `sound-icon-${this.id}`
 
     // Add event listener to sound-icon container
     image.addEventListener('click', (event) => {
-      console.log("click me");
       this.toggleAudio();
 
     })
 
-    // If audible
+    // Add the appropriate audible class
     if (this.audible) {
       if (this.muted) {
         // set class to muted
@@ -60,6 +67,17 @@ class Tab {
     }
 
     parent.appendChild(image);
+    // add close tab icon
+
+    const closeTab = document.createElement('svg');
+    closeTab.classList.add('icon', 'close');
+
+    closeTab.addEventListener('click', (event) => {
+      this.close();
+    });
+
+    parent.appendChild(closeTab);
+
 
     // Add event listener to spearker to mute/unmute
 
@@ -130,5 +148,17 @@ class Tab {
    */
   addToHoard() {
 
+  }
+
+  /**
+   * Closes this tab in thebrowser. 
+   */
+  close() {
+    // Remmove from the DOM if it exists 
+    document.querySelector(`#tab-${this.id}`).remove();
+
+
+    // Close the tab in the browser
+    chrome.tabs.remove(this.id);
   }
 }

@@ -18,9 +18,14 @@ body {
 }
 
 .tab {
-  padding: 5pt 25pt;
+  padding: 5pt 5pt;
   font-size: 10pt;
   display: flex;
+  align-items: center;
+}
+
+.tab-title {
+  flex-grow: 1;
 }
 
 .tab:hover {
@@ -54,14 +59,46 @@ body {
   background: url('./images/volume-up.svg');
 }
 
-.sound-icon {
+
+.icon {
   flex: 0 0 20px;
   height: 20px;
-  align-self: center;
+  /* align-self: center; */
   margin-left: 8px;
-
-
+  
+  
   background-size: 20px 20px;
   background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.5;
 }
+
+.icon:hover {
+  opacity: 1;
+}
+
+.close {
+  background: url('./images/x-circle.svg');
+  background-repeat: no-repeat;
+  background-size: 12px;
+  background-position: center;
+  flex: 0 0 12px;
+}
+
+.close:hover {
+  /* background-size: 16px;
+  flex-basis: 16px; */
+}
+
+
+.favicon {
+  flex-basis: 0 0 16;
+  /* align-self: center; */
+
+  padding-right: 10pt;
+
+  height: 16px;
+  width: 16px;
+}
+
 
