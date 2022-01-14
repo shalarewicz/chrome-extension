@@ -18,7 +18,7 @@ body {
 }
 
 .tab {
-  padding: 5pt 30pt;
+  padding: 5pt 25pt;
   font-size: 10pt;
   display: flex;
 }
@@ -46,17 +46,6 @@ body {
   width: 100%;
 }
 
-.sound-icon {
-  flex-basis: 16px;
-  flex-grow: 0;
-  flex-shrink: 0;
-
-  display: block;
-  width: 16px;
-  height: 16px;
-  background-size: 16px 16px;
-}
-
 .muted {
   background: url('./images/volume-mute.svg');
 }
@@ -64,3 +53,15 @@ body {
 .audible {
   background: url('./images/volume-up.svg');
 }
+
+.sound-icon {
+  flex: 0 0 20px;
+  height: 20px;
+  align-self: center;
+  margin-left: 8px;
+
+
+  background-size: 20px 20px;
+  background-repeat: no-repeat;
+}
+
