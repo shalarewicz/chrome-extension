@@ -36,7 +36,7 @@ function showAllTabs() {
  * @param {????} tab 
  * @param {String} listName 
  */
-function saveTabToStorage(listName = 'hoard') {
+function saveTabToStorage(listName = 'hoard', show = false) {
   // The body of this function will be executed as a content script inside the
   // current page
 
@@ -59,6 +59,11 @@ function saveTabToStorage(listName = 'hoard') {
       newObj[listName] = newList
 
       chrome.storage.sync.set(newObj);
+
+      // show the hoard
+      if (show && document.querySelector('.hoard')) {
+        showHoard();
+      }
     });
 
   })
@@ -92,13 +97,7 @@ const hoardButton = document.querySelector("#hoard");
 
 // Add an event listener to save 'youtube.com' to storage
 hoardButton.addEventListener('click', (event) => {
-  saveTabToStorage('hoard');
-
-  // If we're currently viewing the hoard list. Re-render the hoard list
-  if (document.querySelector('.hoard')) {
-    console.log('re-render hoard');
-    showHoard();
-  }
+  saveTabToStorage('hoard', true);
 });
 
 
