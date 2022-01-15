@@ -182,7 +182,7 @@ class Tab {
     document.querySelector(`#tab-${this.id}`).remove();
 
     // get the current list name
-    let currentList = document.querySelector('.list-title').innerText.toLowerCase();
+    let currentList = document.querySelector('#list-selector').innerText.toLowerCase();
 
 
     if (currentList === 'all') {

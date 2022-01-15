@@ -25,12 +25,6 @@ class TabList {
   _render() {
     const parent = document.createElement('div');
     parent.id = 'current-list';
-    // parent.id = this.name; // ensure id's are one word
-
-    const title = document.createElement('div');
-    title.classList.add('list-title');
-    title.innerText = this.name;
-    parent.appendChild(title);
 
     this.listContainer = document.createElement('div');
     this.listContainer.classList.add('tab-list');
