@@ -1,13 +1,21 @@
-/* button {
-  height: 30px;
-  width: 30px;
+button {
   outline: none;
-  margin: 10px;
+  margin: 10px auto;
   border: none;
   border-radius: 2px;
+  padding: 5px 10px;
+  font-size: 14pt;
+
+  background-color: #2f2f30;
+  color: inherit;
 }
 
-button.current {
+button:hover {
+  background-color: #202124;
+  cursor: pointer;
+}
+
+/* button.current {
   box-shadow: 0 0 0 2px white,
               0 0 0 4px black;
 } */
@@ -123,11 +131,17 @@ body {
 /* list selection menu */
 #list-options {
   display: none;
-  margin-top: 30px;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width:100%;
+  z-index: 1;
 }
 
 .list-option {
   padding: 5px 0px;
+  width: 100%;
+  background-color: #202124;
 }
 
 .list-option:hover {
