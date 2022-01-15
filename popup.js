@@ -51,6 +51,9 @@ function saveTabToStorage(listName = 'hoard', show = false) {
       // console.log(`saving ${tab.url} to ${listName}`)
       const newList = result[listName];
 
+      // iterate through the list to check if we've already saved this tab
+      if (newList.some((el) => el.title === tab.title || el.url === tab.url)) return;
+
       tabToSave = {
         title: tab.title,
         url: tab.url,
