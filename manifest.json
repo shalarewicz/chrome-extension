@@ -11,6 +11,18 @@
     "tabs"
   ],
   "action": {
-    "default_popup": "popup.html"
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "/images/acorn_silver.png",
+      "32": "/images/acorn_silver.png",
+      "48": "/images/acorn_silver.png",
+      "128": "/images/acorn_silver.png"
+    }
+  },
+  "icons": {
+    "16": "/images/acorn_silver.png",
+    "32": "/images/acorn_silver.png",
+    "48": "/images/acorn_silver.png",
+    "128": "/images/acorn_silver.png"
   }
 }

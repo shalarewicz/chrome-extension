@@ -48,7 +48,7 @@ class Tab {
     // add favicon
     const favicon = document.createElement('img');
     favicon.classList.add('favicon');
-    favicon.src = this.icon || '';
+    favicon.src = this.icon || './images/acorn_silver.png';
 
     parent.appendChild(favicon);
 
