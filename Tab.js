@@ -90,6 +90,10 @@ class Tab {
 
     closeTab.addEventListener('click', (event) => {
       this.close();
+
+      // prevent any other click events from ocurring 
+      // stops tab from opening also
+      event.stopPropagation();
     });
 
     parent.appendChild(closeTab);
