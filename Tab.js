@@ -182,10 +182,10 @@ class Tab {
     document.querySelector(`#tab-${this.id}`).remove();
 
     // get the current list name
-    let currentList = document.querySelector('#list-selector').innerText.toLowerCase();
+    let currentList = document.querySelector('#list-selector').innerText;
 
 
-    if (currentList === 'all') {
+    if (currentList === 'All Tabs') {
       // Close the tab in the browser
       chrome.tabs.remove(this.id).then(
         console.log('Closed tab!')
