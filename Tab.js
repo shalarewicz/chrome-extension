@@ -31,19 +31,7 @@ class Tab {
     parent.classList.add('tab');
     parent.id = `tab-${this.id}`;
 
-    // Add event listener to open the selected tab if clicked
-    parent.addEventListener('click', (event) => {
 
-      // Try to updat the active window to the provided tab id. 
-      chrome.tabs.update(this.id, { active: true }).then(result => {
-        // update the focussed winow
-        chrome.windows.update(this.windowId, { focused: true });
-      }).catch((error) => {
-        // Tab wasn't found open in a new tab.
-        chrome.tabs.create({ url: this.url });
-      });
-
-    })
 
     // add favicon
     const favicon = document.createElement('img');
@@ -56,6 +44,22 @@ class Tab {
     const text = document.createElement('div');
     text.classList.add('tab-title')
     text.innerText = this.title;
+
+    // Add event listener to open the selected tab if clicked
+    text.addEventListener('click', (event) => {
+
+      // Try to updat the active window to the provided tab id. 
+      chrome.tabs.update(this.id, { active: true }).then(result => {
+        // update the focussed winow
+        chrome.windows.update(this.windowId, { focused: true });
+      }).catch((error) => {
+        // Tab wasn't found open in a new tab.
+        chrome.tabs.create({ url: this.url });
+      });
+
+    })
+
+
     parent.appendChild(text)
 
     // Add volume image container
