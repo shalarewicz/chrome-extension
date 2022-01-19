@@ -90,6 +90,9 @@ function showList(listName) {
 
     // render the hoard list
     insertAfter(curList.getNode(), document.querySelector('#list-options'));
+
+    // Update the displayed list name
+    document.querySelector('#list-selector').innerText = listName;
   });
 }
 
