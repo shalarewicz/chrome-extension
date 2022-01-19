@@ -194,8 +194,9 @@ class Tab {
       );
     } else {
       // Otherwise Remove the tab from storage
-      chrome.storage.sync.get(currentList, (result) => {
-        const cur = result[currentList];
+      chrome.storage.sync.get('lists', (result) => {
+        const cur = result['lists'][currentList];
+        console.log(cur);
 
         // iterate through the list to find the index of the object to be removed
         let i = 0;
@@ -203,11 +204,15 @@ class Tab {
           i++;
         }
 
+        // Remove the element from storage
         cur.splice(i, 1);
-        // update storage with the new list
 
-        const newObj = {};
-        newObj[currentList] = cur;
+        // update storage with the new list
+        const newObj = {
+          'lists': {
+            [currentList]: cur,
+          }
+        };
 
         chrome.storage.sync.set(newObj);
       })

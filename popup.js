@@ -47,25 +47,25 @@ function saveTabToStorage(listName = 'hoard', show = false) {
   // Get data about the current tab
   getCurrentTab().then(tab => {
     // get the specified list from storage
-    chrome.storage.sync.get([listName], function (result) {
+    chrome.storage.sync.get(['lists'], function (result) {
       // console.log(`saving ${tab.url} to ${listName}`)
-      const newList = result[listName];
+      const allLists = result['lists'];
 
       // iterate through the list to check if we've already saved this tab
-      if (newList.some((el) => el.title === tab.title || el.url === tab.url)) return;
+      if (allLists[listName].some((el) => el.title === tab.title || el.url === tab.url)) return;
 
       tabToSave = {
         title: tab.title,
         url: tab.url,
         favIconUrl: tab.favIconUrl,
-        id: newList.length,
+        id: allLists[listName].length,
       }
-      newList.push(tabToSave);
+      allLists[listName].push(tabToSave);
 
-      const newObj = {};
-      newObj[listName] = newList
+      // const newObj = {};
+      // newObj[listName] = newList
 
-      chrome.storage.sync.set(newObj);
+      chrome.storage.sync.set({ lists: allLists });
 
       // show the hoard
       if (show && document.querySelector('#list-selector')) {
@@ -79,10 +79,10 @@ function saveTabToStorage(listName = 'hoard', show = false) {
 
 function showList(listName) {
   // get the hoard list from storage
-  chrome.storage.sync.get(listName, (result) => {
-
+  chrome.storage.sync.get(['lists'], (result) => {
+    console.log(result);
     // Create a new tab list
-    const curList = new TabList(result[listName], listName);
+    const curList = new TabList(result['lists'][listName], listName);
     // hoardList.getNode().className = 'hoard';
 
     // Remove the cuurentlist from the DOM
@@ -98,12 +98,12 @@ function showList(listName) {
 
 function showListNames() {
   // get all list names from storage and group names for all active tabs
-  chrome.storage.sync.get().then(result => {
+  chrome.storage.sync.get('lists').then(result => {
     // iterate through each list in storage
     console.log(result);
     const parent = document.querySelector('#list-options');
 
-    for (const lst in result) {
+    for (const lst in result['lists']) {
       const title = document.createElement('div');
       title.classList.add('list-option', 'selection');
       title.innerText = lst;
