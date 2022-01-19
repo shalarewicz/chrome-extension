@@ -24,5 +24,9 @@
     "32": "/images/acorn_silver.png",
     "48": "/images/acorn_silver.png",
     "128": "/images/acorn_silver.png"
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": false
   }
 }
